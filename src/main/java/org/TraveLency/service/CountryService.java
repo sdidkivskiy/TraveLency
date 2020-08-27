@@ -16,4 +16,6 @@ public interface CountryService {
     Country edit(Country country);
 
     Country getById(Long id);
+
+    Country getByCountryName(String country);
 }

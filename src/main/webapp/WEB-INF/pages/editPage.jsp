@@ -241,13 +241,13 @@
 </head>
 <body>
 <div class="actions-form">
-    <c:if test="${empty hotel.name}">
+    <c:if test="${empty hotelId}">
         <c:url value="/add" var="var"/>
         <div class="col-xs-8 col-xs-offset-4">
             <h2>Add new hotel</h2>
         </div>
     </c:if>
-    <c:if test="${!empty hotel.name}">
+    <c:if test="${!empty hotelId}">
         <c:url value="/edit" var="var"/>
         <div class="col-xs-8 col-xs-offset-4">
             <h2>Edit hotel</h2>
@@ -258,9 +258,11 @@
         <div class="col-xs-8 col-xs-offset-4">
         </div>
 
-        <c:if test="${!empty hotel.name}">
-        <input type="hidden" name="id" value="${hotel.id}">
+        <c:if test="${!empty hotelId}">
+        <input type="hidden" name="hotelId" value="${hotelId}">
         </c:if>
+
+        <c:if test="${empty hotelId}">
 
         <div class="form-group">
             <label class="control-label col-xs-4">Name</label>
@@ -290,14 +292,30 @@
             </div>
         </div>
 
-        <c:if test="${empty hotel.name}">
         <div class="form-group">
             <input type="submit" class="btn btn-primary btn-lg" value="Add new hotel">
         </div>
 
 
         </c:if>
-        <c:if test="${!empty hotel.name}">
+        <c:if test="${!empty hotelId}">
+
+        <input type="hidden" name="hotelId" value="${hotelId}">
+
+        <div class="form-group">
+            <label class="control-label col-xs-4">Name</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="hotelName" id="hotelName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-4">AvailableRooms</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="availableRooms" id="availableRooms">
+            </div>
+        </div>
+
         <div class="form-group">
             <input type="submit" class="btn btn-primary btn-lg" value="Edit hotel">
         </div>

@@ -5,10 +5,10 @@ import org.TraveLency.model.Country;
 import org.TraveLency.model.Hotel;
 import org.TraveLency.model.dto.HotelCityDto;
 import org.TraveLency.model.dto.HotelCityRespDto;
+import org.TraveLency.model.dto.HotelEditDto;
 import org.TraveLency.service.CityService;
 import org.TraveLency.service.CountryService;
 import org.TraveLency.service.HotelService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +36,7 @@ public class HotelsController {
         this.cityService = cityService;
     }
 
-//    @PreAuthorize("hasRole=('USER')")
+    //    @PreAuthorize("hasRole=('USER')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView allHotels(HttpServletRequest request) {
         List<Hotel> hotels = hotelService.allHotels();
@@ -73,17 +73,20 @@ public class HotelsController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editPage(@PathVariable("id") Long id) {
-        Hotel hotel = hotelService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
-//        modelAndView.addObject("hotel", hotel);
-        modelAndView.addObject("hotel", hotelService.getById(id));
+        modelAndView.addObject("hotelId", id);
         return modelAndView;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editHotel(@ModelAttribute("hotel") Hotel hotel) {
+    public ModelAndView editHotel(@ModelAttribute("hotel") HotelEditDto hotelEditDto) {
         ModelAndView modelAndView = new ModelAndView();
+
+        Hotel hotel = hotelService.getById(hotelEditDto.getHotelId());
+        hotel.setName(hotelEditDto.getHotelName());
+        hotel.setAvailableRooms(hotelEditDto.getAvailableRooms());
+
         hotelService.edit(hotel);
         modelAndView.setViewName("redirect:/");
         return modelAndView;

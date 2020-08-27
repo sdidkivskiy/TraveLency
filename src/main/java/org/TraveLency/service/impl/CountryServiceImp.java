@@ -42,4 +42,9 @@ public class CountryServiceImp implements CountryService {
         return countryRepository.findById(id)
                 .orElseThrow(() -> new MainException(COUNTRY_BY_SUCH_ID_IS_NOT_FOUND, 404L));
     }
+
+    @Override
+    public Country getByCountryName(String name) {
+        return countryRepository.findByName(name);
+    }
 }

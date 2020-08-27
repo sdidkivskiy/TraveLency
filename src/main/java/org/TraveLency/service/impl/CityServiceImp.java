@@ -48,4 +48,9 @@ public class CityServiceImp implements CityService {
         return cityRepository.findById(id)
                 .orElseThrow(() -> new MainException(CITY_BY_SUCH_ID_IS_NOT_FOUND, 404L));
     }
+
+    @Override
+    public City getByCityName(String name) {
+        return cityRepository.findByName(name);
+    }
 }
