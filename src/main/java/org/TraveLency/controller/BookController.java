@@ -1,9 +1,11 @@
 package org.TraveLency.controller;
 
 import org.TraveLency.model.BookRoom;
+import org.TraveLency.model.Hotel;
 import org.TraveLency.model.User;
 import org.TraveLency.model.dto.BookRoomDto;
 import org.TraveLency.model.dto.BookedRoomsDto;
+import org.TraveLency.model.dto.HotelCityRespDto;
 import org.TraveLency.service.BookRoomService;
 import org.TraveLency.service.HotelService;
 import org.TraveLency.service.UserService;
@@ -45,9 +47,9 @@ public class BookController {
     public ModelAndView bookedRooms(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession(true);
-        List<BookRoom> bookRooms = bookRoomService.getByUser(userService.getByLogin((String)session.getAttribute("login")));
+        List<BookRoom> bookRooms = bookRoomService.getByUser(userService.getByLogin((String) session.getAttribute("login")));
         List<BookedRoomsDto> bookedRoomsDtos = new ArrayList<>();
-        for (BookRoom bookRoom: bookRooms) {
+        for (BookRoom bookRoom : bookRooms) {
             BookedRoomsDto bookedRoomsDto = new BookedRoomsDto();
             bookedRoomsDto.setBookRoomId(bookRoom.getId());
             bookedRoomsDto.setHotelName(bookRoom.getHotel().getName());
@@ -69,13 +71,17 @@ public class BookController {
         HttpSession session = request.getSession(true);
 
         BookRoom bookRoom = new BookRoom();
-        bookRoom.setUser(userService.getByLogin((String)session.getAttribute("login")));
+        bookRoom.setUser(userService.getByLogin((String) session.getAttribute("login")));
         bookRoom.setHotel(hotelService.getById(bookRoomDto.getHotelId()));
         bookRoom.setFromDate(bookRoomDto.getDateFrom());
         bookRoom.setToDate(bookRoomDto.getDateTo());
         bookRoom.setNumberBookedRooms(bookRoomDto.getCountRooms());
 
         bookRoomService.add(bookRoom);
+
+        Hotel hotel = hotelService.getById(bookRoomDto.getHotelId());
+        hotel.setAvailableRooms(hotel.getAvailableRooms()-bookRoom.getNumberBookedRooms());
+        hotelService.edit(hotel);
 
         modelAndView.setViewName("redirect:/");
         return modelAndView;
@@ -85,6 +91,7 @@ public class BookController {
     public ModelAndView bookedRoomsDelete(@PathVariable("bookedRoomId") Long bookedRoomId, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         bookRoomService.delete(bookedRoomId);
+
 
         modelAndView.setViewName("redirect:/bookedRooms");
 

@@ -18,8 +18,9 @@
         .ui-datepicker {
             width: 12em;
         }
-        h1{
-            color:green;
+
+        h1 {
+            color: green;
         }
     </style>
 
@@ -29,6 +30,7 @@
             background: #f3f3f3;
             font-family: 'Roboto', sans-serif;
         }
+
         .hotels-form {
             width: 500px;
             margin: 0 auto;
@@ -144,64 +146,64 @@
 
 </head>
 <body>
-
 <form action="/book" method="POST">
-    <div class="col-xs-8 col-xs-offset-4">
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-xs-4">Start date</label>
-        <div class="col-xs-8">
-            <input type="text" class="form-control" name="dateFrom" id="dateFrom">
+    <div class="hotels-form">
+        <div class="col-xs-8 col-xs-offset-4">
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-xs-4">End date</label>
-        <div class="col-xs-8">
-            <input type="text" class="form-control" name="dateTo" id="dateTo">
+        <div class="form-group">
+            <label class="control-label col-xs-4">Start date</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="dateFrom" id="dateFrom">
+            </div>
         </div>
-    </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
-    </script>
-    <script>
-        $(document).ready(function() {
+        <div class="form-group">
+            <label class="control-label col-xs-4">End date</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="dateTo" id="dateTo">
+            </div>
+        </div>
 
-            $(function() {
-                $("#dateFrom").datepicker({});
-            });
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+        </script>
+        <script>
+            $(document).ready(function () {
 
-            $(function() {
-                $("#dateTo").datepicker({});
-            });
+                $(function () {
+                    $("#dateFrom").datepicker({});
+                });
 
-            $('#dateFrom').change(function() {
-                startDate = $(this).datepicker('getDate');
-                $("#dateTo").datepicker("option", "minDate", startDate);
+                $(function () {
+                    $("#dateTo").datepicker({});
+                });
+
+                $('#dateFrom').change(function () {
+                    startDate = $(this).datepicker('getDate');
+                    $("#dateTo").datepicker("option", "minDate", startDate);
+                })
+
+                $('#dateTo').change(function () {
+                    endDate = $(this).datepicker('getDate');
+                    $("#dateFrom").datepicker("option", "maxDate", endDate);
+                })
             })
+        </script>
 
-            $('#dateTo').change(function() {
-                endDate = $(this).datepicker('getDate');
-                $("#dateFrom").datepicker("option", "maxDate", endDate);
-            })
-        })
-    </script>
+        <input type="hidden" name="hotelId" value="${hotelId}">
 
-    <input type="hidden" name="hotelId" value="${hotelId}">
-
-    <div class="form-group">
-        <label class="control-label col-xs-4">Count of rooms</label>
-        <div class="col-xs-8">
-            <input type="text" class="form-control" name="countRooms" id="countRooms">
+        <div class="form-group">
+            <label class="control-label col-xs-4">Count of rooms</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="countRooms" id="countRooms">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary btn-lg" value="Book">
-    </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-lg" value="Book">
+        </div>
 
     </div>
 </form>
